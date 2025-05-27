@@ -2,7 +2,7 @@ import type { JSX } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 
-function Layout({
+export default function Layout({
 	title,
 	isSignedIn,
 	setSignedIn,
@@ -15,17 +15,19 @@ function Layout({
 }) {
 	return (
 		<>
-			<div className="layout">
+			<div className="flex flex-col min-h-screen min-w-full">
 				<Header
 					title={title}
 					isSignedIn={isSignedIn}
 					setSignedIn={setSignedIn}
 				></Header>
-				<main>{children}</main>
+
+				<div className="flex mt-[2em] py-[5em] w-full">
+					<main>{children}</main>
+				</div>
+
 				<Footer />
 			</div>
 		</>
 	);
 }
-
-export default Layout;

@@ -2,9 +2,9 @@ import { Routes, Route } from "react-router";
 import "./App.css";
 import Layout from "./components/atomics/Layout";
 import Welcome from "./components/atomics/Welcome";
-import AuthForm from "./components/atomics/AuthForm";
 import { useState } from "react";
 import Purchases from "./components/pages/Purchases";
+import Auth from "./components/atomics/Auth";
 
 export default function App() {
 	const APP_TITLE = "eCommerce";
@@ -19,7 +19,7 @@ export default function App() {
 			>
 				<Routes>
 					<Route path="/" element={<Welcome />} />
-					<Route path="/auth" element={<AuthForm />} />
+					<Route path="/auth" element={<Auth />} />
 
 					<Route path="/shop" element={<Purchases />} />
 				</Routes>

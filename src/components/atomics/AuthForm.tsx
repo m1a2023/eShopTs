@@ -1,17 +1,21 @@
 import { type JSX, useState } from "react";
 import BaseButton from "./BaseButton";
+import con from "../../connection.json";
 
 function AuthForm(): JSX.Element {
 	type authForm = { username: string; password: string; email?: string };
 
+	const url = (...parts: string[]): string => {
+		const build = `${con.base}://${con.host}:${con.port}`;
+		if (parts.length === 0) {
+			return build;
+		}
+		return `${build}/${parts.join("/")}`;
+	};
+
 	const [isLogin, setLoggedIn] = useState(true);
 	function handleLogin(state: boolean) {
 		setLoggedIn(!state);
-	}
-
-	const [errorMessage, setErrorMessage] = useState("");
-	function handleErrorMessage(message: string) {
-		setErrorMessage(message);
 	}
 
 	const _formData: authForm = {
@@ -25,50 +29,39 @@ function AuthForm(): JSX.Element {
 	function handleFormDataChange(event: React.ChangeEvent<HTMLInputElement>) {
 		const { name, value } = event.target;
 		setFormData((previousState) => ({ ...previousState, [name]: value }));
-		setErrorMessage("");
 	}
 
+	/**
+	 * Send request to save user
+	 * @param event Submit button click
+	 */
 	async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 
-		const uri =
-			"http://localhost:8080/servlet/" + (isLogin ? "login" : "signup");
+		const uri = url("user");
 
-		fetch(uri, {
-			method: "POST",
-			body: JSON.stringify(formData),
-			headers: {
-				"Content-Type": "application/json",
-				Accept: "application/json",
-			},
-			credentials: "include",
-		})
-			.then((response) => {
-				if (!response.ok) {
-					throw new Error(response.statusText);
-				}
-
-				console.debug(response);
-				if (response.status == 201) {
-					/* Registration successful */
-					handleLogin(isLogin);
-					return;
-				} else if (response.status == 200) {
-					/* Login successful */
-					window.location.href = "http://localhost:8080/servlet/personal/files";
-					return;
-				}
-			})
-			.catch((e: Error) => {
-				handleErrorMessage("Error while trying auth");
-				console.error(
-					new Error(
-						`[${new Date()}] - Error> - [Name: ${e.name}; Message: ${
-							e.message
-						};]\nStacktrace: ${e.stack}`
-					)
-				);
+		try {
+			const response = await fetch(uri, {
+				method: "POST",
+				body: JSON.stringify(formData),
+				headers: {
+					"Content-Type": "application/json",
+					Accept: "application/json",
+				},
+				credentials: "include",
 			});
+
+			if (!response.ok) {
+				// handle error
+			}
+
+			switch (response.status) {
+				case 200:
+					return;
+			}
+		} catch (e: any) {
+			// TODO
+		}
 	}
 
 	return (
@@ -77,9 +70,6 @@ function AuthForm(): JSX.Element {
 				onSubmit={handleSubmit}
 				className="flex flex-col gap-y-4 max-w-sm mx-auto text-xl "
 			>
-				{errorMessage && (
-					<p className="text-red-500 text-center font-medium">{errorMessage}</p>
-				)}
 				<input
 					type="text"
 					name="username"

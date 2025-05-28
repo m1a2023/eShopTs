@@ -14,8 +14,10 @@ export default function AddProduct({
 
 	function handleSubmit(e: React.ChangeEvent<HTMLFormElement>): void {
 		e.preventDefault();
-		addFunc(product);
-		setProduct({ title: "", isBought: false });
+		if (product.title === "") {
+			return;
+		}
+		addFunc({ ...product });
 	}
 
 	function handleFormDataChange(e: React.ChangeEvent<HTMLInputElement>): void {
@@ -27,15 +29,19 @@ export default function AddProduct({
 		<>
 			<form
 				onSubmit={handleSubmit}
-				className={`flex relative bg-white p-8 items-center justify-between rounded-2xl text-2xl cursor-pointer text-black`}
+				className={`flex w-[60%] bg-white p-5 m-4 items-center gap-5 justify-between select-none rounded-2xl text-2xl text-black`}
 			>
 				<input
 					type="text"
-					name="product-title"
+					name="title"
 					placeholder="Title"
 					onChange={handleFormDataChange}
+					value={product.title}
+					className="flex grow focus:outline-none "
 				/>
-				<button type="submit">Add</button>
+				<button type="submit" className="flex w-fit min-w-fit cursor-pointer">
+					Add
+				</button>
 			</form>
 		</>
 	);

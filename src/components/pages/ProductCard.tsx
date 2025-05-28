@@ -1,29 +1,26 @@
-import { useState } from "react";
+import type { Product } from "./product";
 
 type ProductCardProps = {
 	id: number;
-	title: string;
-	isBought?: boolean;
-	onClick?: () => void;
+	product: Product;
+	changeStatus?: (id: number) => void;
 };
 
 export default function ProductCard({
 	id,
-	title,
-	onClick,
+	product,
+	changeStatus,
 }: ProductCardProps): React.ReactNode {
-	const [isBought, setIsBought] = useState(false);
-
 	return (
 		<div
-			className={`flex w-full h-full relative ${
-				isBought ? "bg-gray-700" : "bg-white"
-			} p-8 items-center justify-between rounded-2xl min-w-[200px] transition-transform duration-300 text-2xl hover:scale-105 cursor-pointer text-black`}
-			onClick={() => setIsBought(!isBought)}
+			className={`flex w-full h-full relative p-8 items-center justify-between rounded-2xl select-none min-w-[200px] transition-transform duration-300 text-2xl hover:scale-105 cursor-pointer text-black ${
+				product.isBought ? "bg-gray-700" : "bg-white"
+			}`}
+			onClick={() => changeStatus?.(id)}
 		>
 			<span>{id + 1}</span>
-			<span>{title}</span>
-			<span>{isBought ? "x" : "o"}</span>
+			<span>{product.title}</span>
+			<span>{product.isBought ? "yes" : "no"}</span>
 		</div>
 	);
 }

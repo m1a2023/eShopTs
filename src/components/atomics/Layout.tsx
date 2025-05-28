@@ -22,8 +22,8 @@ export default function Layout({
 					setSignedIn={setSignedIn}
 				></Header>
 
-				<div className="flex mt-[2em] py-[5em] w-full">
-					<main>{children}</main>
+				<div className="flex h-full mt-[2em] py-[5em] w-full">
+					<main className="flex w-full justify-center">{children}</main>
 				</div>
 
 				<Footer />

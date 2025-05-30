@@ -1,0 +1,9 @@
+> margin between AddProduct and Products;
+> add component to delete product from list;
+> fix graphical bug with AddProduct;
+> add component to filter products by [name, bought, etc...];
+
+done:
+set height Product;
+add base filter <if two products has same name, then merge them>;
+add wrap for Products;

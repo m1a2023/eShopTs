@@ -9,6 +9,7 @@ export default function AddProduct({
 	// Product that will be added
 	const [product, setProduct] = useState<Product>({
 		title: "",
+		quantity: 1,
 		isBought: false,
 	});
 
@@ -17,6 +18,7 @@ export default function AddProduct({
 		if (product.title === "") {
 			return;
 		}
+		product.title = product.title.trim();
 		addFunc({ ...product });
 	}
 
@@ -29,7 +31,7 @@ export default function AddProduct({
 		<>
 			<form
 				onSubmit={handleSubmit}
-				className={`flex w-[60%] bg-white p-5 m-4 items-center gap-5 justify-between select-none rounded-2xl text-2xl text-black`}
+				className={`flex w-[60%] h-1/2 bg-white p-5 m-4 items-center gap-5 justify-between select-none rounded-2xl text-xl text-black`}
 			>
 				<input
 					type="text"
@@ -37,6 +39,14 @@ export default function AddProduct({
 					placeholder="Title"
 					onChange={handleFormDataChange}
 					value={product.title}
+					className="flex grow focus:outline-none "
+				/>
+				<input
+					type="number"
+					name="quantity"
+					placeholder="Quantity"
+					onChange={handleFormDataChange}
+					value={product.quantity}
 					className="flex grow focus:outline-none "
 				/>
 				<button type="submit" className="flex w-fit min-w-fit cursor-pointer">

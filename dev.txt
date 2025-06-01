@@ -1,9 +1,13 @@
-> margin between AddProduct and Products;
-> add component to delete product from list;
-> fix graphical bug with AddProduct;
-> add component to filter products by [name, bought, etc...];
+>? add component to filter products by [name, bought, etc...];
+> add grid to ProductCard
 
 done:
 set height Product;
 add base filter <if two products has same name, then merge them>;
 add wrap for Products;
+
+bigFix with adding quantity;
+margin between AddProduct and Products;
+fix graphical bug with AddProduct;
+add component to delete product from list;
+

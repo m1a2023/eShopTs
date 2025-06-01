@@ -29,11 +29,15 @@ export default function Purchases() {
 			const products = [...prev];
 			products[index] = {
 				...products[index],
-				isBought: !products[index].isBought,
+				isBought: !products[index]?.isBought,
 			};
 			return products;
 		});
 	}
+
+	const deleteProduct = (index: number): void => {
+		setProducts((prev) => prev.filter((p, i) => i != index));
+	};
 
 	const addProductQuantity = (product: Product): void => {
 		const index = findInProducts(product);
@@ -41,7 +45,7 @@ export default function Purchases() {
 			const products = [...prev];
 			products[index] = {
 				...products[index],
-				quantity: products[index]?.quantity + 1,
+				quantity: products[index].quantity + Number(product.quantity),
 			};
 			return products;
 		});
@@ -61,7 +65,12 @@ export default function Purchases() {
 				key={i}
 				className="w-7/10 sm:w-7/10 lg:w-6/10 xl:w-3/10 h-auto min-h-15 max-h-17"
 			>
-				<ProductCard id={i} product={val} changeStatus={setProductBought} />
+				<ProductCard
+					id={i}
+					product={val}
+					changeStatusFunction={setProductBought}
+					deleteStatusFunction={deleteProduct}
+				/>
 			</div>
 		));
 	}, [products]);
@@ -71,7 +80,7 @@ export default function Purchases() {
 			<div className="flex flex-col h-full w-full">
 				{/* Add product component */}
 				<div className="flex w-full justify-center">
-					<AddProduct addFunc={handleAddProduct} />
+					<AddProduct addFunction={handleAddProduct} />
 				</div>
 
 				{/* Listed products */}

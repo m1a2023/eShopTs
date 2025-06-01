@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { type Product } from "./product";
 
-type AddProductProps = { addFunc: (p: Product) => void };
+type AddProductProps = { addFunction: (p: Product) => void };
 
 export default function AddProduct({
-	addFunc,
+	addFunction,
 }: AddProductProps): React.ReactNode {
 	// Product that will be added
 	const [product, setProduct] = useState<Product>({
@@ -18,8 +18,9 @@ export default function AddProduct({
 		if (product.title === "") {
 			return;
 		}
+
 		product.title = product.title.trim();
-		addFunc({ ...product });
+		addFunction({ ...product });
 	}
 
 	function handleFormDataChange(e: React.ChangeEvent<HTMLInputElement>): void {
@@ -31,7 +32,7 @@ export default function AddProduct({
 		<>
 			<form
 				onSubmit={handleSubmit}
-				className={`flex w-[60%] h-1/2 bg-white p-5 m-4 items-center gap-5 justify-between select-none rounded-2xl text-xl text-black`}
+				className="flex flex-wrap md:flex-nowrap w-6/10 bg-white px-5 m-4 items-center gap-5 justify-between select-none rounded-2xl text-xl text-black"
 			>
 				<input
 					type="text"
@@ -39,7 +40,7 @@ export default function AddProduct({
 					placeholder="Title"
 					onChange={handleFormDataChange}
 					value={product.title}
-					className="flex grow focus:outline-none "
+					className="flex-1 min-w-[120px] focus:outline-none overflow-hidden"
 				/>
 				<input
 					type="number"
@@ -47,9 +48,12 @@ export default function AddProduct({
 					placeholder="Quantity"
 					onChange={handleFormDataChange}
 					value={product.quantity}
-					className="flex grow focus:outline-none "
+					className="flex-1 min-w-[120px] focus:outline-none overflow-hidden"
 				/>
-				<button type="submit" className="flex w-fit min-w-fit cursor-pointer">
+				<button
+					type="submit"
+					className="px-4 py-2 whitespace-nowrap flex-shrink-0 cursor-pointer"
+				>
 					Add
 				</button>
 			</form>
